@@ -96,4 +96,36 @@ public class Main {
 
         prodottiPiuCostosi.forEach(System.out::println);
 
-        
+// ESERCIZIO 4
+        // Media importi degli ordini
+
+        System.out.println("\nESERCIZIO 4");
+
+        double mediaOrdini = orders.stream()
+                .mapToDouble(o ->
+                        o.getProducts().stream()
+                                .mapToDouble(Product::getPrice)
+                                .sum()
+                )
+                .average()
+                .orElse(0);
+
+        System.out.println("Media importi ordini: " + mediaOrdini + "€");
+
+        // ESERCIZIO 5
+        // Somma importi per categoria
+
+        System.out.println("\nESERCIZIO 5");
+
+        Map<String, Double> totalePerCategoria =
+                products.stream()
+                        .collect(Collectors.groupingBy(
+                                Product::getCategory,
+                                Collectors.summingDouble(Product::getPrice)
+                        ));
+
+        totalePerCategoria.forEach((categoria, totale) ->
+                System.out.println(categoria + " -> " + totale + "€")
+        );
+    }
+}
